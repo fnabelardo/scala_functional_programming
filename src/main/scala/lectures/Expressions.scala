@@ -25,7 +25,7 @@ object Expressions extends App {
   // += -= *= /=
   //Example:
   var y = 5
-   y += 5
+  y += 5
   println(y)
 
   //While loop
@@ -33,6 +33,13 @@ object Expressions extends App {
   while (i < 10) {
     println(i)
     i += 1
+  }
+
+  //Code blocks
+  val aCodeBlock = {
+    val y = 2
+    val z = y + 1
+    if (z > 2) "Hello" else "Goodbye"
   }
 
 }
