@@ -1,7 +1,7 @@
 package lectures
 
 object ValuesVariablesTypes extends App {
-  //Values (Immutable)
+  //Values (Immutable: Can't be reassigned)
   val x: Int = 42
   println(x)
 
@@ -12,4 +12,7 @@ object ValuesVariablesTypes extends App {
   val aLong: Long = 5478965412457869L
   val aFloat: Float = 5.0f
   val aDouble: Double = 6.15
+
+  //Variables (Mutable: Can be reassigned)
+  var aVariable = 5
 }
