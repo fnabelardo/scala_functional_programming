@@ -28,4 +28,11 @@ object Expressions extends App {
    y += 5
   println(y)
 
+  //While loop
+  var i = 0
+  while (i < 10) {
+    println(i)
+    i += 1
+  }
+
 }
