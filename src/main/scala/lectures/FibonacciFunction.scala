@@ -7,13 +7,9 @@ object FibonacciFunction extends App {
   * *** f(2) = 2
   * *** f(n) = f( n - 1 ) +  f( n - 2 )
   * */
-  private def fibonacciFunction(number: Int): BigInt = {
-    if (number == 1 || number == 2) {
-      1
-    } else {
-      fibonacciFunction(number - 1) + fibonacciFunction(number - 2)
-    }
-  }
+  private def fibonacciFunction(number: Int): BigInt =
+    if (number <= 2) 1
+    else fibonacciFunction(number - 1) + fibonacciFunction(number - 2)
 
   println(fibonacciFunction(8))//Output: 21
 
