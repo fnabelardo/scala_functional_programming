@@ -13,6 +13,16 @@ object Functions extends App {
     if (n == 1) aString
     else aString + aRepeatedFunction(aString, n - 1)
   }
+
   println(aRepeatedFunction("Greetings ", 3))
+
+  //Define function inside function like code block
+  def aBigFunction(n: Int): Int = {
+    def aSmallerFunction(a: Int, b: Int): Int = a + b
+
+    aSmallerFunction(n, n-1)
+  }
+
+  println(aBigFunction(5))
 
 }
