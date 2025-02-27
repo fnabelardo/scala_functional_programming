@@ -13,9 +13,18 @@ object StringOps extends App {
 
   val aNumberString = "86"
   val aNumber = aNumberString.toInt
-  println('a' +: aNumberString :+ 'z')//Prepending string (:+), Appending string (+:)
+  println('a' +: aNumberString :+ 'z') //Prepending string (:+), Appending string (+:)
   println(str.reverse)
-  println(str.take(4))//Output: Hell
+  println(str.take(4)) //Output: Hell
 
+  //Scala-specific: String interpolators
+
+  //S-interpolator
+  val name = "Noel"
+  val age = 38
+  //String interpolators
+  val greeting = s"Hello, my name is $name and I am $age years old"
+  val anotherGreeting = s"Hello, my name is $name and I will be turning ${age + 1} years old"
+  println(anotherGreeting)
 
 }
