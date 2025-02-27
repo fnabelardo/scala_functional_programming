@@ -1,4 +1,4 @@
-package lectures
+package lectures.basics
 
 object GreetingsFunction extends App {
   /*

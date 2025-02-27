@@ -1,4 +1,4 @@
-package lectures
+package lectures.basics
 
 object StringOps extends App {
   val str: String = "Hello, I am a software engineer"
