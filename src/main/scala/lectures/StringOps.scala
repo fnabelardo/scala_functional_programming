@@ -27,4 +27,12 @@ object StringOps extends App {
   val anotherGreeting = s"Hello, my name is $name and I will be turning ${age + 1} years old"
   println(anotherGreeting)
 
+  //F-interpolator
+  val speed = 1.2f
+  println(speed)
+  println(f"speed: $speed")
+  //%2.2f: 2 character minimum and 2 decimal positions
+  val myth = f"$name can eat $speed%2.2f breads per minute"
+  println(myth)
+
 }
