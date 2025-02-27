@@ -32,7 +32,12 @@ object StringOps extends App {
   println(speed)
   println(f"speed: $speed")
   //%2.2f: 2 character minimum and 2 decimal positions
-  val myth = f"$name can eat $speed%2.2f breads per minute"
+  val myth = f"$name%s can eat $speed%2.2f breads per minute"
   println(myth)
+
+  //Raw-interpolator
+  println(raw"This is a test for a \n newline") //Ignore the escape character inside raw
+  val escaped = "This is a test for a \n newline"
+  println(escaped)
 
 }
