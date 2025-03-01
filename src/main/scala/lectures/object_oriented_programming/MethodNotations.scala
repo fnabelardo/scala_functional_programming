@@ -3,7 +3,7 @@ package lectures.object_oriented_programming
 import scala.language.postfixOps
 
 object MethodNotations extends App {
-  case class Person(val name: String, favoriteMovie: String) {
+  case class Person(val name: String, favoriteMovie: String, val age: Int = 0) {
     def likes(movie: String): Boolean = movie == favoriteMovie
     //Infix notation
     def hangOutWith(person: Person): String = s"${this.name} is hanging out with $person"
@@ -11,6 +11,7 @@ object MethodNotations extends App {
     def +(pseudonym: String): Person = new Person(this.name + " (" + pseudonym + ")", this.favoriteMovie)
     //Prefix notation
     def unary_! : String = s"$name, what the heck?!"
+    def unary_+ : Person = new Person(this.name, this.favoriteMovie, this.age + 1)
     //Postfix notation
     def isAlive: Boolean = true //This function do not receive any parameter
     //Apply
@@ -54,5 +55,12 @@ object MethodNotations extends App {
   val messi = new Person("Messi", "Take the ball and pass it")
   println((messi + "The goat").apply())
 
+  /* 2.
+  * Add "age" parameter to the Person class, default 0 value and
+  * Add a unary + operator => new Person with the age + 1
+  * Ex: +messi => messi with the age incremented
+  * */
+  println("2.")
+  println(+messi)
 
 }
