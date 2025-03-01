@@ -8,6 +8,7 @@ object MethodNotations extends App {
     //Infix notation
     def hangOutWith(person: Person): String = s"${this.name} is hanging out with $person"
     def +(person: Person): String = s"${this.name} is adding with $person"
+    def +(pseudonym: String): Person = new Person(this.name + " (" + pseudonym + ")", this.favoriteMovie)
     //Prefix notation
     def unary_! : String = s"$name, what the heck?!"
     //Postfix notation
@@ -44,5 +45,14 @@ object MethodNotations extends App {
   //Apply (Special property)
   println(jane())//Equivalent with println(jane.apply())
   println(jane.apply())
+
+  /* 1.
+  * Overload the "+" method to return new Person
+  * Ex: messi + "the goat" => new person (name: Messi (the goat), favoriteMovie: the same of messi.favoriteMovie)
+  * */
+  println("1.")
+  val messi = new Person("Messi", "Take the ball and pass it")
+  println((messi + "The goat").apply())
+
 
 }
