@@ -3,7 +3,7 @@ package lectures.object_oriented_programming
 import scala.language.postfixOps
 
 object MethodNotations extends App {
-  case class Person(val name: String, favoriteMovie: String, val age: Int = 0) {
+  class Person(val name: String, favoriteMovie: String, val age: Int = 0) {
     def likes(movie: String): Boolean = movie == favoriteMovie
     //Infix notation
     def hangOutWith(person: Person): String = s"${this.name} is hanging out with $person"
@@ -18,6 +18,7 @@ object MethodNotations extends App {
     def learnsScala = this learns("Scala")
     //Apply
     def apply(): String = s"Hi, my name is $name and I like $favoriteMovie"
+    def apply(watchedTime: Int) = s"$name watched the $favoriteMovie $watchedTime times"
   }
 
   val jane = new Person("Jane", "Inception")
@@ -71,5 +72,12 @@ object MethodNotations extends App {
   * Use it in postfix notation */
   println("3.")
   println(messi learnsScala)
+
+  /* 4.
+  * Overload the apply method to receive a Number and return a String
+  * Return Person "name" watched the Person "favoriteMovie" n times
+  * */
+  println("4.")
+  println(messi(5))
 
 }
