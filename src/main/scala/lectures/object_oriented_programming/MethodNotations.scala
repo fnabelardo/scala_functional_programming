@@ -12,6 +12,8 @@ object MethodNotations extends App {
     def unary_! : String = s"$name, what the heck?!"
     //Postfix notation
     def isAlive: Boolean = true //This function do not receive any parameter
+    //Apply
+    def apply(): String = s"Hi, my name is $name and I like $favoriteMovie"
   }
 
   val jane = new Person("Jane", "Inception")
@@ -38,5 +40,9 @@ object MethodNotations extends App {
   //Postfix notation
   println(jane isAlive)//Equivalent with println(jane.isAlive)
   println(jane.isAlive)
+
+  //Apply (Special property)
+  println(jane())//Equivalent with println(jane.apply())
+  println(jane.apply())
 
 }
