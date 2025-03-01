@@ -14,6 +14,8 @@ object MethodNotations extends App {
     def unary_+ : Person = new Person(this.name, this.favoriteMovie, this.age + 1)
     //Postfix notation
     def isAlive: Boolean = true //This function do not receive any parameter
+    def learns(subject: String) = s"$name learns $subject"
+    def learnsScala = this learns("Scala")
     //Apply
     def apply(): String = s"Hi, my name is $name and I like $favoriteMovie"
   }
@@ -62,5 +64,12 @@ object MethodNotations extends App {
   * */
   println("2.")
   println(+messi)
+
+  /* 3.
+  * Add a "learns" method to the Person class => "Mary learns Scala"
+  * Add a learnsScala method, calls learns method with "Scala"
+  * Use it in postfix notation */
+  println("3.")
+  println(messi learnsScala)
 
 }
