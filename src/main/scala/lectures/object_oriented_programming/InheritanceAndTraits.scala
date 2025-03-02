@@ -39,4 +39,12 @@ object InheritanceAndTraits extends App {
    //Type substitution (broad: polymorphism)
    val unknownAnimal: Animal = new Dog("K9")
    unknownAnimal.run
+
+   /* Preventing overrides:
+   * 1- Use final on member
+   *    Ex: final protected def eat
+   * 2- Use final entire class
+   *    Ex: final class Animal
+   *  3- Use Seal class (Allow extension class in the same file, prevent extension class in other files)
+   *    Ex:sealed class Animal */
 }
