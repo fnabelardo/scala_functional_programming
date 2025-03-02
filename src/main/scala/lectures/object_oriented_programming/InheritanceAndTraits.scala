@@ -19,7 +19,17 @@ object InheritanceAndTraits extends App {
    cat.run
 
    //Constructors
-   class Person(name: String, age: Int) {}
+   class Person(name: String, age: Int) {
+     def this(name: String) = this(name, 0)
+   }
    //Extending class with parameters
    class Adult(name: String, age: Int, idCard: String) extends Person(name, age) {}
+
+   //Overriding methods
+   class Dog extends Animal {
+     override def eat = println("eat, eat")
+   }
+
+   val dog = new Dog
+   dog.eat
 }
