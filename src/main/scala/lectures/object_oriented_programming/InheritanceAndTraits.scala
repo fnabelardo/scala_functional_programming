@@ -17,4 +17,9 @@ object InheritanceAndTraits extends App {
   }
    val cat = new Cat
    cat.run
+
+   //Constructors
+   class Person(name: String, age: Int) {}
+   //Extending class with parameters
+   class Adult(name: String, age: Int, idCard: String) extends Person(name, age) {}
 }
