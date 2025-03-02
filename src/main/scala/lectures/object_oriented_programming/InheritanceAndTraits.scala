@@ -27,12 +27,16 @@ object InheritanceAndTraits extends App {
    class Adult(name: String, age: Int, idCard: String) extends Person(name, age) {}
 
    //Overriding methods
-   class Dog extends Animal {
+   class Dog(override val creatureType: String) extends Animal {
      override def eat = println("eat, eat")
-     override val creatureType: String = "domestic"
+//     override val creatureType: String = "domestic"
    }
 
-   val dog = new Dog
+   val dog = new Dog("K9")
    dog.eat
    println(dog.creatureType)
+
+   //Type substitution (broad: polymorphism)
+   val unknownAnimal: Animal = new Dog("K9")
+   unknownAnimal.run
 }
