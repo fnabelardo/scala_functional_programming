@@ -8,6 +8,7 @@ object InheritanceAndTraits extends App {
   class Animal {
     def run = println("run")
     protected def eat = println("mmmmm")
+    val creatureType = "wild"
   }
   class Cat extends Animal {
     def crunch = {
@@ -28,8 +29,10 @@ object InheritanceAndTraits extends App {
    //Overriding methods
    class Dog extends Animal {
      override def eat = println("eat, eat")
+     override val creatureType: String = "domestic"
    }
 
    val dog = new Dog
    dog.eat
+   println(dog.creatureType)
 }
