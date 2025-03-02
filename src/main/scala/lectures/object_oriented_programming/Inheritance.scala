@@ -1,6 +1,6 @@
 package lectures.object_oriented_programming
 
-object InheritanceAndTraits extends App {
+object Inheritance extends App {
   //Single class Inheritance
   // - Permit only one Inheritance
   // - The private methods are not accessible
