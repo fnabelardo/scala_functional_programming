@@ -1,7 +1,7 @@
 package lectures.object_oriented_programming
 
 abstract class MyList {
-  /* Single link integer list
+  /* Singled link integer list
   * head = first element of the list
   * tail = remainder of the list
   * isEmpty = is this list empty
@@ -26,6 +26,12 @@ class ConstructionList(h: Int, t: MyList) extends MyList {
   def tail: MyList = t
   def isEmpty: Boolean = false
   def add(element: Int): MyList = new ConstructionList(element, this)
+}
+
+object ListTest extends App {
+  //Create list with one element
+  val list = new ConstructionList(1, EmptyList)
+  println(list.head)
 }
 
 
