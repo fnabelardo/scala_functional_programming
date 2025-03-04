@@ -11,7 +11,8 @@ abstract class MyList {
   def tail: MyList
   def isEmpty: Boolean
   def add(element: Int): MyList
-  //  def toString: String
+  def printElements: String
+  override def toString: String = "[" + printElements + "]"
 }
 
 object EmptyList extends MyList {
@@ -19,6 +20,7 @@ object EmptyList extends MyList {
   def tail: MyList = throw new NoSuchElementException
   def isEmpty: Boolean = true
   def add(element: Int): MyList = new ConstructionList(element, EmptyList)
+  def printElements: String = ""
 }
 
 class ConstructionList(h: Int, t: MyList) extends MyList {
@@ -26,6 +28,9 @@ class ConstructionList(h: Int, t: MyList) extends MyList {
   def tail: MyList = t
   def isEmpty: Boolean = false
   def add(element: Int): MyList = new ConstructionList(element, this)
+  def printElements: String =
+    if(t.isEmpty) s"$h"
+    else s"$h ${t.printElements}"
 }
 
 object ListTest extends App {
@@ -37,6 +42,10 @@ object ListTest extends App {
   val list2 = new ConstructionList(1, ConstructionList(2, ConstructionList(3, EmptyList)))
   println(s"List 2 head: ${list2.head}")
   println(s"List 2 tail head: ${list2.tail.head}")
+  println(s"List 2 tail head: ${list2.tail.head}")
+
+  //Polymorphic call
+  println(list2.toString)
 
 }
 
