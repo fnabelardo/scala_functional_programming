@@ -28,4 +28,8 @@ object Generics extends App {
   val animal: Animal = new Cat
   val animalList: CovariantList[Animal] = new CovariantList[Cat]
 
+  //Invariance
+  class InvariantList[A]
+  val invariantAnimalList: InvariantList[Animal] = new InvariantList[Animal]
+
 }
