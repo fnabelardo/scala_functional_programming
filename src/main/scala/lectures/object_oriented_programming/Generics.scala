@@ -11,4 +11,11 @@ object Generics extends App {
   val listOfIntegers = new MyList[Int]
   val listOfStrings = new MyList[String]
 
+  //Generic methods
+  object MyList {
+    def empty[A]: MyList[A] = ???
+  }
+
+  val emptyListOfIntegers = MyList.empty[Int]
+
 }
