@@ -2,7 +2,7 @@ package lectures.object_oriented_programming
 
 object Generics extends App {
   //Generic class
-  class MyList[A] {
+  class MyList[+A] {
     // Use the type A
   }
 
@@ -35,5 +35,9 @@ object Generics extends App {
   //Contravariance
   class Trainer[-A]
   val trainer: Trainer[Animal] = new Trainer[Animal]
+
+  //Bounded types
+  class Cage[A <: Animal](animal: A)
+  val cage: Cage[Animal] = new Cage[Animal](animal)
 
 }
