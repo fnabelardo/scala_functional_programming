@@ -18,4 +18,14 @@ object Generics extends App {
 
   val emptyListOfIntegers = MyList.empty[Int]
 
+  //Variance problem
+  class Animal
+  class Cat extends Animal
+  class Dog extends Animal
+
+  //List[Cat] extends List[Animal] => Covariance
+  class CovariantList[+A]
+  val animal: Animal = new Cat
+  val animalList: CovariantList[Animal] = new CovariantList[Cat]
+
 }
