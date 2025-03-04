@@ -32,6 +32,12 @@ object ListTest extends App {
   //Create list with one element
   val list = new ConstructionList(1, EmptyList)
   println(list.head)
+
+  //Create list with 3 element
+  val list2 = new ConstructionList(1, ConstructionList(2, ConstructionList(3, EmptyList)))
+  println(s"List 2 head: ${list2.head}")
+  println(s"List 2 tail head: ${list2.tail.head}")
+
 }
 
 
