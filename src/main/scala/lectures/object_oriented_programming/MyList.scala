@@ -13,6 +13,12 @@ abstract class MyList[+A] {
   def add[B >: A](element: B): MyList[B]
   def printElements: String
   override def toString: String = "[" + printElements + "]"
+  /*
+    map(transformer) => MyList
+    flatMap(transformer from A to MyList[B]) => MyList[B]
+    filter(predicate) => MyList
+  * */
+  def map[B](transformer: MyTransformer[A, B]): MyList[B]
 }
 
 object EmptyList extends MyList[Nothing]{
@@ -21,6 +27,8 @@ object EmptyList extends MyList[Nothing]{
   def isEmpty: Boolean = true
   def add[B >: Nothing](element: B): MyList[B] = new ConstructionList(element, EmptyList)
   def printElements: String = ""
+
+  def map[B](transformer: MyTransformer[Nothing, B]): MyList[B] = EmptyList
 }
 
 class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
@@ -31,6 +39,17 @@ class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
   def printElements: String =
     if(t.isEmpty) s"$h"
     else s"$h ${t.printElements}"
+
+  /*
+  * [1, 2, 3].map(n * 2)
+  *   = new ConstructionList(2, [2, 3].map(n * 2))
+  *   = new ConstructionList(2, new ConstructionList(4, [3].map(n * 2)))
+  *   = new ConstructionList(2, new ConstructionList(4, new ConstructionList(6, EmptyList.map(n * 2))))
+  *   = new ConstructionList(2, new ConstructionList(4, new ConstructionList(6, EmptyList)))
+  * */
+  def map[B](transformer: MyTransformer[A, B]): MyList[B] = {
+    new ConstructionList(transformer.transform(h), t.map(transformer))
+  }
 }
 
 /*
@@ -52,6 +71,9 @@ object ListTest extends App {
 
   println(listOfIntegers.toString)
   println(listOfStrings.toString)
+  println(listOfIntegers.map(new MyTransformer[Int, Int]{
+    override def transform(element: Int): Int = element * 2
+  }))
 }
 
 
