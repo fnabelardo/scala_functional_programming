@@ -33,6 +33,19 @@ class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
     else s"$h ${t.printElements}"
 }
 
+/*
+  * Generic trait MyPredicate[T] with a little method test(T) => Bolean
+  * Generic trait MyTransformer[A, B]
+* */
+
+trait MyPredicate[-T] {
+  def test(element: T): Boolean
+}
+
+trait MyTransformer[-A, B] {
+  def transform(element: A): B
+}
+
 object ListTest extends App {
   val listOfIntegers: MyList[Int] = new ConstructionList(1, ConstructionList(2, ConstructionList(3, EmptyList)))
   val listOfStrings: MyList[String] = new ConstructionList("Hello", new ConstructionList("Scala", EmptyList))
