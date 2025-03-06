@@ -19,6 +19,8 @@ abstract class MyList[+A] {
     filter(predicate) => MyList
   * */
   def map[B](transformer: MyTransformer[A, B]): MyList[B]
+//  def flatMap[B](transformer: MyTransformer[A, MyList[B]]): MyList[B]
+  def filter(predicate: MyPredicate[A]): MyList[A]
 }
 
 object EmptyList extends MyList[Nothing]{
@@ -29,6 +31,8 @@ object EmptyList extends MyList[Nothing]{
   def printElements: String = ""
 
   def map[B](transformer: MyTransformer[Nothing, B]): MyList[B] = EmptyList
+//  def flatMap[B](transformer: MyTransformer[Nothing, MyList[B]]): MyList[B] = EmptyList
+  def filter(predicate: MyPredicate[Nothing]): MyList[Nothing] = EmptyList
 }
 
 class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
@@ -50,6 +54,17 @@ class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
   def map[B](transformer: MyTransformer[A, B]): MyList[B] = {
     new ConstructionList(transformer.transform(h), t.map(transformer))
   }
+
+  /*
+    * [1, 2, 3].filter(n % 2 == 0)
+    *   = [2, 3].filter(n % 2 == 0)
+    *   = new ConstructionList(2, [3].filter(n % 2 == 0))
+    *   = new ConstructionList(2, EmptyList.filter(n % 2 == 0))
+    *   = new ConstructionList(2, EmptyList)
+    * */
+  def filter(predicate: MyPredicate[A]): MyList[A] =
+    if(predicate.test(h)) new ConstructionList(h, t.filter(predicate))
+    else t.filter(predicate)
 }
 
 /*
@@ -73,6 +88,9 @@ object ListTest extends App {
   println(listOfStrings.toString)
   println(listOfIntegers.map(new MyTransformer[Int, Int]{
     override def transform(element: Int): Int = element * 2
+  }))
+  println(listOfIntegers.filter(new MyPredicate[Int] {
+    override def test(element: Int): Boolean = element % 2 == 0
   }))
 }
 
