@@ -1,5 +1,7 @@
 package lectures.object_oriented_programming
 
+import scala.collection.immutable.Stream.Cons
+
 abstract class MyList[+A] {
   /* Singled link integer list
   * head = first element of the list
@@ -19,8 +21,11 @@ abstract class MyList[+A] {
     filter(predicate) => MyList
   * */
   def map[B](transformer: MyTransformer[A, B]): MyList[B]
-//  def flatMap[B](transformer: MyTransformer[A, MyList[B]]): MyList[B]
   def filter(predicate: MyPredicate[A]): MyList[A]
+  def flatMap[B](transformer: MyTransformer[A, MyList[B]]): MyList[B]
+  //Concatenation
+  def ++[B >: A](list: MyList[B]): MyList[B]
+
 }
 
 object EmptyList extends MyList[Nothing]{
@@ -31,8 +36,10 @@ object EmptyList extends MyList[Nothing]{
   def printElements: String = ""
 
   def map[B](transformer: MyTransformer[Nothing, B]): MyList[B] = EmptyList
-//  def flatMap[B](transformer: MyTransformer[Nothing, MyList[B]]): MyList[B] = EmptyList
   def filter(predicate: MyPredicate[Nothing]): MyList[Nothing] = EmptyList
+  def flatMap[B](transformer: MyTransformer[Nothing, MyList[B]]): MyList[B] = EmptyList
+
+  def ++[B >: Nothing](list: MyList[B]): MyList[B] = list
 }
 
 class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
@@ -65,6 +72,24 @@ class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
   def filter(predicate: MyPredicate[A]): MyList[A] =
     if(predicate.test(h)) new ConstructionList(h, t.filter(predicate))
     else t.filter(predicate)
+    
+  /*
+  * [1, 2] ++ [3, 4, 5]
+  * new ConstructionList(1, [2] ++ [3, 4, 5]) 
+  * new ConstructionList(1, ConstructionList(2, Empty ++ [3, 4, 5])) 
+  * new ConstructionList(1, ConstructionList(2, new ConstructionList(3, new ConstructionList (4, new ConstructionList(5)))))
+  * */
+  def ++[B >: A](list: MyList[B]): MyList[B] = new ConstructionList(h, t ++ list)
+
+  /*
+  * [1, 2].flatMap(n => [n, n+1])
+  * = [1,2] ++ [2].flatMap(n => [n, n+1])
+  * = [1,2] ++ [2,3] ++ Empty.flatMap(n => [n, n+1])
+  * = [1,2] ++ [2,3] ++ Empty
+  * = [1,2,2,3]
+  * */
+  def flatMap[B](transformer: MyTransformer[A, MyList[B]]): MyList[B] =
+    transformer.transform(h) ++ t.flatMap(transformer)
 }
 
 /*
@@ -82,6 +107,7 @@ trait MyTransformer[-A, B] {
 
 object ListTest extends App {
   val listOfIntegers: MyList[Int] = new ConstructionList(1, ConstructionList(2, ConstructionList(3, EmptyList)))
+  val anotherListOfIntegers: MyList[Int] = new ConstructionList(4, ConstructionList(5, ConstructionList(6, EmptyList)))
   val listOfStrings: MyList[String] = new ConstructionList("Hello", new ConstructionList("Scala", EmptyList))
 
   println(listOfIntegers.toString)
@@ -91,6 +117,11 @@ object ListTest extends App {
   }))
   println(listOfIntegers.filter(new MyPredicate[Int] {
     override def test(element: Int): Boolean = element % 2 == 0
+  }))
+
+  println(listOfIntegers ++ anotherListOfIntegers)
+  println(listOfIntegers.flatMap(new MyTransformer[Int, MyList[Int]]{
+    override def transform(element: Int): MyList[Int] = new ConstructionList(element, new ConstructionList(element + 1, EmptyList))
   }))
 }
 
