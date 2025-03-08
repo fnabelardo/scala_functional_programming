@@ -28,7 +28,7 @@ abstract class MyList[+A] {
 
 }
 
-object EmptyList extends MyList[Nothing]{
+case object EmptyList extends MyList[Nothing]{
   def head: Nothing = throw new NoSuchElementException
   def tail: MyList[Nothing] = throw new NoSuchElementException
   def isEmpty: Boolean = true
@@ -42,7 +42,7 @@ object EmptyList extends MyList[Nothing]{
   def ++[B >: Nothing](list: MyList[B]): MyList[B] = list
 }
 
-class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
+case class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
   def head: A = h
   def tail: MyList[A] = t
   def isEmpty: Boolean = false
@@ -123,6 +123,9 @@ object ListTest extends App {
   println(listOfIntegers.flatMap(new MyTransformer[Int, MyList[Int]]{
     override def transform(element: Int): MyList[Int] = new ConstructionList(element, new ConstructionList(element + 1, EmptyList))
   }))
+
+  val cloneListOfIntegers: MyList[Int] = new ConstructionList(1, ConstructionList(2, ConstructionList(3, EmptyList)))
+  println(cloneListOfIntegers == listOfIntegers )//Output: true
 }
 
 
