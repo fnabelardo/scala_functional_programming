@@ -33,4 +33,9 @@ object Exceptions extends App {
 
   println(potentialFall)//Output: 43
 
+  //3. How to define own exceptions
+  class MyException extends Exception
+  val exception = new MyException
+
+  //throw exception
 }
