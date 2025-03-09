@@ -18,14 +18,19 @@ object Exceptions extends App {
     else 42
   }
 
-  try {
+  val potentialFall = try {
       //Code that might throw
-      getInt(true)
+      getInt(false)
     } catch {
-      case e: RuntimeException => println("caught a Runtime exception")
+      case e: RuntimeException => 43
     } finally {
     //Code that will get executed NO MATTER WHAT
-      print("Finally")
+    //Optional
+    //Does not influence the return type of the expression
+    //Use finally only for side effects
+      println("Finally")
     }
+
+  println(potentialFall)//Output: 43
 
 }
