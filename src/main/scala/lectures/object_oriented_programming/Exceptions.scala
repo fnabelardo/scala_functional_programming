@@ -43,6 +43,10 @@ object Exceptions extends App {
    */
   //val array = Array.ofDim[Int](Int.MaxValue, 4)//Output: Exception in thread "main" java.lang.OutOfMemoryError: Requested array size exceeds VM limit
 
-  //println(PocketCalculator.add(Int.MaxValue, 10))
+  /*
+    2. Crash the program with an StackOverflowError
+   */
+  def infinite: Int = 1 + infinite
+  //val notLimit = infinite //Output: Exception in thread "main" java.lang.StackOverflowError
 
 }
