@@ -22,8 +22,20 @@ object Enums {
     case NONE extends PermissionsWithBits(0) //000
   }
 
+  object PermissionsWithBits {
+    def fromBits(bits: Int): PermissionsWithBits = //whatever
+    PermissionsWithBits.NONE
+  }
+
+  //Standard API
+  val somePermissionsOrdinal = somePermissions.ordinal
+  val allPermissions = PermissionsWithBits.values //Array of the all possible values of the enum
+  val readPermissions: Permissions = Permissions.valueOf("READ")//Permissions.READ
+
   def main(args: Array[String]): Unit = {
     somePermissions.openDocument()
+    println(somePermissionsOrdinal)//Output: 0. Because de enum start on 0
+
   }
 
 }
