@@ -14,6 +14,14 @@ object Enums {
 
   val somePermissions: Permissions = Permissions.READ
 
+  //Constructor args
+  enum PermissionsWithBits(bits: Int) {
+    case READ extends PermissionsWithBits(4) //100
+    case WRITE extends PermissionsWithBits(2) //010
+    case EXECUTE extends PermissionsWithBits(1) //001
+    case NONE extends PermissionsWithBits(0) //000
+  }
+
   def main(args: Array[String]): Unit = {
     somePermissions.openDocument()
   }
