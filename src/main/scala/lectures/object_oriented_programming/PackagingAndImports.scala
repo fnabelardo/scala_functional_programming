@@ -11,6 +11,9 @@ object PackagingAndImports extends App {
 
   //Imports package
   val prince = new PrinceCharming
-  
-  
+
+  //Default imports
+  // java.lang - String, Object, Exception
+  // scala - Int, Nothing, Functional
+  // scala.Predef - println, ???
 }
