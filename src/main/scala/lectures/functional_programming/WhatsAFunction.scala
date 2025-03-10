@@ -21,6 +21,14 @@ object WhatsAFunction extends App {
 
   //Function types Function2[A, B, R] === (A,B) => R
   //All Scala functions are objects
+  /*
+
+  * A function that takes 2 strings and concatenate them
+  */
+  val concat: (String, String) => String = new Function2[String, String, String] {
+    override def apply(a: String, b: String): String = a + b
+  }
+  println(concat("Hello", " World"))
 
 }
 
