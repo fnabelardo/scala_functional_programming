@@ -16,12 +16,19 @@ object AnonymousFunctions extends App {
 
   //No parameters in a lambda
   val justDoSomething: () => Int = () => 3
-  println(justDoSomething)  //Function itself       //Output: lectures.functional_programming.AnonymousFunctions$$$Lambda$17/0x0000000840067440@6e8dacdf
-  println(justDoSomething())//Call of the function  //Output: 3
+  println(justDoSomething) //Function itself       //Output: lectures.functional_programming.AnonymousFunctions$$$Lambda$17/0x0000000840067440@6e8dacdf
+  println(justDoSomething()) //Call of the function  //Output: 3
 
   //Curly braces with lambda
   val stringToInt = { (str: String) =>
     str.toInt
   }
+
+  //MOAR syntactic sugar
+  //val niceIncrementer: Int => Int = (x: Int) => x + 1 //Equivalent to ---> val niceIncrementer: Int => Int = _ + 1
+  val niceIncrementer: Int => Int = _ + 1
+
+  //val niceAdder: (Int, Int) => Int = (a, b) => a + b //Equivalent to ---> val niceAdder: (Int, Int) => Int = _ + _
+  val niceAdder: (Int, Int) => Int = _ + _
 
 }
