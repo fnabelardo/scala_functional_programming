@@ -10,11 +10,17 @@ abstract class MyList[+A] {
   * add(int) = new list with this element added
   * toString = a string representation of the list * */
   def head: A
+
   def tail: MyList[A]
+
   def isEmpty: Boolean
+
   def add[B >: A](element: B): MyList[B]
+
   def printElements: String
+
   override def toString: String = "[" + printElements + "]"
+
   /*
     map(transformer) => MyList
     flatMap(transformer from A to MyList[B]) => MyList[B]
@@ -22,22 +28,31 @@ abstract class MyList[+A] {
   * */
   //Higher-order functions: Receive functions as parameters and return other function
   def map[B](transformer: A => B): MyList[B]
+
   def filter(predicate: A => Boolean): MyList[A]
+
   def flatMap[B](transformer: A => MyList[B]): MyList[B]
+
   //Concatenation
   def ++[B >: A](list: MyList[B]): MyList[B]
 
 }
 
-case object EmptyList extends MyList[Nothing]{
+case object EmptyList extends MyList[Nothing] {
   def head: Nothing = throw new NoSuchElementException
+
   def tail: MyList[Nothing] = throw new NoSuchElementException
+
   def isEmpty: Boolean = true
+
   def add[B >: Nothing](element: B): MyList[B] = new ConstructionList(element, EmptyList)
+
   def printElements: String = ""
 
   def map[B](transformer: Nothing => B): MyList[B] = EmptyList
+
   def filter(predicate: Nothing => Boolean): MyList[Nothing] = EmptyList
+
   def flatMap[B](transformer: Nothing => MyList[B]): MyList[B] = EmptyList
 
   def ++[B >: Nothing](list: MyList[B]): MyList[B] = list
@@ -45,11 +60,15 @@ case object EmptyList extends MyList[Nothing]{
 
 case class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
   def head: A = h
+
   def tail: MyList[A] = t
+
   def isEmpty: Boolean = false
+
   def add[B >: A](element: B): MyList[B] = new ConstructionList(element, this)
+
   def printElements: String =
-    if(t.isEmpty) s"$h"
+    if (t.isEmpty) s"$h"
     else s"$h ${t.printElements}"
 
   /*
@@ -71,9 +90,9 @@ case class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
     *   = new ConstructionList(2, EmptyList)
     * */
   def filter(predicate: A => Boolean): MyList[A] =
-    if(predicate.apply(h)) new ConstructionList(h, t.filter(predicate))
+    if (predicate.apply(h)) new ConstructionList(h, t.filter(predicate))
     else t.filter(predicate)
-    
+
   /*
   * [1, 2] ++ [3, 4, 5]
   * new ConstructionList(1, [2] ++ [3, 4, 5]) 
@@ -105,20 +124,14 @@ object ListTest extends App {
 
   println(listOfIntegers.toString)
   println(listOfStrings.toString)
-  println(listOfIntegers.map(new Function1[Int, Int]{
-    override def apply(element: Int): Int = element * 2
-  }))
-  println(listOfIntegers.filter(new Function1[Int, Boolean] {
-    override def apply(element: Int): Boolean = element % 2 == 0
-  }))
+  println(listOfIntegers.map(x => x * 2))
+  println(listOfIntegers.filter(x => x % 2 == 0))
 
   println(listOfIntegers ++ anotherListOfIntegers)
-  println(listOfIntegers.flatMap(new Function1[Int, MyList[Int]]{
-    override def apply(element: Int): MyList[Int] = new ConstructionList(element, new ConstructionList(element + 1, EmptyList))
-  }))
+  println(listOfIntegers.flatMap(x => new ConstructionList(x, new ConstructionList(x + 1, EmptyList))))
 
   val cloneListOfIntegers: MyList[Int] = new ConstructionList(1, ConstructionList(2, ConstructionList(3, EmptyList)))
-  println(cloneListOfIntegers == listOfIntegers )//Output: true
+  println(cloneListOfIntegers == listOfIntegers) //Output: true
 }
 
 
