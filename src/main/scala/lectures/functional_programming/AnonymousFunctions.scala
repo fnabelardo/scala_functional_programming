@@ -11,4 +11,7 @@ object AnonymousFunctions extends App {
   //val doubler: Int => Int = x => x * 2        //Equivalent to ---> val doubler = (x: Int) => x * 2
   val doubler = (x: Int) => x * 2
 
+  //Multiple parameters in a lambda
+  val adder: (Int, Int) => Int = (a: Int, b: Int) => a + b
+
 }
