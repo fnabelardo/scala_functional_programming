@@ -19,4 +19,9 @@ object AnonymousFunctions extends App {
   println(justDoSomething)  //Function itself       //Output: lectures.functional_programming.AnonymousFunctions$$$Lambda$17/0x0000000840067440@6e8dacdf
   println(justDoSomething())//Call of the function  //Output: 3
 
+  //Curly braces with lambda
+  val stringToInt = { (str: String) =>
+    str.toInt
+  }
+
 }
