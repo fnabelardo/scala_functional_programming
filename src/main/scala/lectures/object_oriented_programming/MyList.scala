@@ -20,9 +20,10 @@ abstract class MyList[+A] {
     flatMap(transformer from A to MyList[B]) => MyList[B]
     filter(predicate) => MyList
   * */
-  def map[B](transformer: MyTransformer[A, B]): MyList[B]
-  def filter(predicate: MyPredicate[A]): MyList[A]
-  def flatMap[B](transformer: MyTransformer[A, MyList[B]]): MyList[B]
+  //Higher-order functions: Receive functions as parameters and return other function
+  def map[B](transformer: A => B): MyList[B]
+  def filter(predicate: A => Boolean): MyList[A]
+  def flatMap[B](transformer: A => MyList[B]): MyList[B]
   //Concatenation
   def ++[B >: A](list: MyList[B]): MyList[B]
 
@@ -35,9 +36,9 @@ case object EmptyList extends MyList[Nothing]{
   def add[B >: Nothing](element: B): MyList[B] = new ConstructionList(element, EmptyList)
   def printElements: String = ""
 
-  def map[B](transformer: MyTransformer[Nothing, B]): MyList[B] = EmptyList
-  def filter(predicate: MyPredicate[Nothing]): MyList[Nothing] = EmptyList
-  def flatMap[B](transformer: MyTransformer[Nothing, MyList[B]]): MyList[B] = EmptyList
+  def map[B](transformer: Nothing => B): MyList[B] = EmptyList
+  def filter(predicate: Nothing => Boolean): MyList[Nothing] = EmptyList
+  def flatMap[B](transformer: Nothing => MyList[B]): MyList[B] = EmptyList
 
   def ++[B >: Nothing](list: MyList[B]): MyList[B] = list
 }
@@ -58,8 +59,8 @@ case class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
   *   = new ConstructionList(2, new ConstructionList(4, new ConstructionList(6, EmptyList.map(n * 2))))
   *   = new ConstructionList(2, new ConstructionList(4, new ConstructionList(6, EmptyList)))
   * */
-  def map[B](transformer: MyTransformer[A, B]): MyList[B] = {
-    new ConstructionList(transformer.transform(h), t.map(transformer))
+  def map[B](transformer: A => B): MyList[B] = {
+    new ConstructionList(transformer.apply(h), t.map(transformer))
   }
 
   /*
@@ -69,8 +70,8 @@ case class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
     *   = new ConstructionList(2, EmptyList.filter(n % 2 == 0))
     *   = new ConstructionList(2, EmptyList)
     * */
-  def filter(predicate: MyPredicate[A]): MyList[A] =
-    if(predicate.test(h)) new ConstructionList(h, t.filter(predicate))
+  def filter(predicate: A => Boolean): MyList[A] =
+    if(predicate.apply(h)) new ConstructionList(h, t.filter(predicate))
     else t.filter(predicate)
     
   /*
@@ -88,22 +89,14 @@ case class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
   * = [1,2] ++ [2,3] ++ Empty
   * = [1,2,2,3]
   * */
-  def flatMap[B](transformer: MyTransformer[A, MyList[B]]): MyList[B] =
-    transformer.transform(h) ++ t.flatMap(transformer)
+  def flatMap[B](transformer: A => MyList[B]): MyList[B] =
+    transformer.apply(h) ++ t.flatMap(transformer)
 }
 
 /*
   * Generic trait MyPredicate[T] with a little method test(T) => Bolean
   * Generic trait MyTransformer[A, B]
 * */
-
-trait MyPredicate[-T] {
-  def test(element: T): Boolean
-}
-
-trait MyTransformer[-A, B] {
-  def transform(element: A): B
-}
 
 object ListTest extends App {
   val listOfIntegers: MyList[Int] = new ConstructionList(1, ConstructionList(2, ConstructionList(3, EmptyList)))
@@ -112,16 +105,16 @@ object ListTest extends App {
 
   println(listOfIntegers.toString)
   println(listOfStrings.toString)
-  println(listOfIntegers.map(new MyTransformer[Int, Int]{
-    override def transform(element: Int): Int = element * 2
+  println(listOfIntegers.map(new Function1[Int, Int]{
+    override def apply(element: Int): Int = element * 2
   }))
-  println(listOfIntegers.filter(new MyPredicate[Int] {
-    override def test(element: Int): Boolean = element % 2 == 0
+  println(listOfIntegers.filter(new Function1[Int, Boolean] {
+    override def apply(element: Int): Boolean = element % 2 == 0
   }))
 
   println(listOfIntegers ++ anotherListOfIntegers)
-  println(listOfIntegers.flatMap(new MyTransformer[Int, MyList[Int]]{
-    override def transform(element: Int): MyList[Int] = new ConstructionList(element, new ConstructionList(element + 1, EmptyList))
+  println(listOfIntegers.flatMap(new Function1[Int, MyList[Int]]{
+    override def apply(element: Int): MyList[Int] = new ConstructionList(element, new ConstructionList(element + 1, EmptyList))
   }))
 
   val cloneListOfIntegers: MyList[Int] = new ConstructionList(1, ConstructionList(2, ConstructionList(3, EmptyList)))
