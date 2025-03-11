@@ -31,4 +31,8 @@ object AnonymousFunctions extends App {
   //val niceAdder: (Int, Int) => Int = (a, b) => a + b //Equivalent to ---> val niceAdder: (Int, Int) => Int = _ + _
   val niceAdder: (Int, Int) => Int = _ + _
 
+  /* Write the special adder as an anonymous function */
+  val superAdder = (x: Int) => (y: Int) => x + y
+  println(superAdder(3)(4))   //Output: 7
+
 }
