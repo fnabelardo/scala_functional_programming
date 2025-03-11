@@ -23,4 +23,10 @@ object HOFsCurries extends App {
   val plus10 = nTimesBetter(plusOne, 10)
   println(plus10(1))
 
+  //Curried functions
+  val superAdder = (x: Int) => (y: Int) => x + y
+  val add3 = superAdder(3) // y => 3 + y
+  println(add3(10)) //Helper function //Output: 13
+  println(superAdder(3)(10))  //Output: 13
+
 }
