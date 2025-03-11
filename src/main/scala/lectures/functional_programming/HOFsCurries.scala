@@ -29,4 +29,11 @@ object HOFsCurries extends App {
   println(add3(10)) //Helper function //Output: 13
   println(superAdder(3)(10))  //Output: 13
 
+  //Function with multiple parameter lists
+  def curriedFormatter(c: String)(x: Double): String = c.format(x)
+  val standardFormat: (Double => String) = curriedFormatter("%4.2f")
+  val preciseFormat: (Double => String) = curriedFormatter("%10.8f")
+  println(standardFormat(Math.PI))
+  println(preciseFormat(Math.PI))
+
 }
