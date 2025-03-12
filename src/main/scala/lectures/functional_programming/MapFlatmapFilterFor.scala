@@ -29,5 +29,9 @@ object MapFlatmapFilterFor extends App {
   println("--Combined--")
   println(combined)
 
-
+  val colors = List("red", "green", "blue")
+  println("--Vocals-Numbers-Colors-Combined--")
+  val combined2 = numbers.flatMap(x=> chars.flatMap(c => colors.map(c + "" + x + "" + _)))
+  println("--Combined2--")
+  println(combined2)
 }
