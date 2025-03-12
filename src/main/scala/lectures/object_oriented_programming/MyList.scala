@@ -36,6 +36,11 @@ abstract class MyList[+A] {
   //Concatenation
   def ++[B >: A](list: MyList[B]): MyList[B]
 
+  /* 
+  * foreach method with side effect: A => Unit
+  */
+  def foreach(f: A => Unit): Unit
+
 }
 
 case object EmptyList extends MyList[Nothing] {
@@ -56,6 +61,8 @@ case object EmptyList extends MyList[Nothing] {
   def flatMap[B](transformer: Nothing => MyList[B]): MyList[B] = EmptyList
 
   def ++[B >: Nothing](list: MyList[B]): MyList[B] = list
+
+  def foreach(f: Nothing => Unit): Unit = ()
 }
 
 case class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
@@ -110,6 +117,15 @@ case class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
   * */
   def flatMap[B](transformer: A => MyList[B]): MyList[B] =
     transformer.apply(h) ++ t.flatMap(transformer)
+
+  /* 
+  * foreach method with side effect: A => Unit
+  * Ex: [1, 2, 3].foreach(x => println(x))
+  */
+  def foreach(f: A => Unit): Unit = {
+    f(h)
+    t.foreach(f)
+  }
 }
 
 /*
@@ -132,6 +148,9 @@ object ListTest extends App {
 
   val cloneListOfIntegers: MyList[Int] = new ConstructionList(1, ConstructionList(2, ConstructionList(3, EmptyList)))
   println(cloneListOfIntegers == listOfIntegers) //Output: true
+
+  println("Foreach method with side effect")
+  listOfIntegers.foreach((element) => println(element)) //Equivalent to listOfIntegers.foreach(println) //Output: 1 2 3 in separate lines
 }
 
 
