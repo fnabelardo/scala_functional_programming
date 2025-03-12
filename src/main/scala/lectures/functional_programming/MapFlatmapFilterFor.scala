@@ -21,6 +21,7 @@ object MapFlatmapFilterFor extends App {
   println("--flatMap--")
   println(list.flatMap(toPair)) //Output: List(1, 2, 2, 3, 3, 4, 4, 5)
 
+  //Iterations
   /* print all combination between two list */
   val numbers = List(1, 2, 3, 4)
   val chars = List("a", "b", "c", "d")
@@ -34,4 +35,19 @@ object MapFlatmapFilterFor extends App {
   val combined2 = numbers.flatMap(x=> chars.flatMap(c => colors.map(c + "" + x + "" + _)))
   println("--Combined2--")
   println(combined2)
+
+  //For-comprehension
+  val forCombinations = for {
+    n <- numbers
+    c <- chars
+    color <- colors
+  } yield (c + "" + n + "-" + color)
+  println("--forCombination--")
+  println(forCombinations)
+
+
+  //Foreach
+  list.foreach(println)
+
+
 }
