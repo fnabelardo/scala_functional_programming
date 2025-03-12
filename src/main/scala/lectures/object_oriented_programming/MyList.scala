@@ -36,10 +36,15 @@ abstract class MyList[+A] {
   //Concatenation
   def ++[B >: A](list: MyList[B]): MyList[B]
 
-  /* 
+  /*
   * foreach method with side effect: A => Unit
   */
   def foreach(f: A => Unit): Unit
+
+  /*
+  * Sort function*: ((A, A) => Int) => MyList
+  */
+  def sort(compare: (A, A) => Int): MyList[A]
 
 }
 
@@ -63,6 +68,8 @@ case object EmptyList extends MyList[Nothing] {
   def ++[B >: Nothing](list: MyList[B]): MyList[B] = list
 
   def foreach(f: Nothing => Unit): Unit = ()
+
+  def sort(compare: (Nothing, Nothing) => Int) = EmptyList
 }
 
 case class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
@@ -118,7 +125,7 @@ case class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
   def flatMap[B](transformer: A => MyList[B]): MyList[B] =
     transformer.apply(h) ++ t.flatMap(transformer)
 
-  /* 
+  /*
   * foreach method with side effect: A => Unit
   * Ex: [1, 2, 3].foreach(x => println(x))
   */
@@ -126,6 +133,22 @@ case class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
     f(h)
     t.foreach(f)
   }
+
+  /*
+  * Sort function*: ((A, A) => Int) => MyList
+  * Ex: [1,2,3].sort((x,y) => y - x) => [3,2,1]
+  */
+  def sort(compare: (A, A) => Int): MyList[A] = {
+    def insert(x: A, sortedList: MyList[A]): MyList[A] = {
+      if (sortedList.isEmpty) new ConstructionList(x, EmptyList)
+      else if (compare(x, sortedList.head) <= 0) new ConstructionList(x, sortedList)
+      else new ConstructionList(sortedList.head, insert(x, sortedList.tail))
+    }
+
+    val sortedTail = t.sort(compare)
+    insert(h, sortedTail)
+  }
+
 }
 
 /*
@@ -150,7 +173,11 @@ object ListTest extends App {
   println(cloneListOfIntegers == listOfIntegers) //Output: true
 
   println("Foreach method with side effect")
-  listOfIntegers.foreach((element) => println(element)) //Equivalent to listOfIntegers.foreach(println) //Output: 1 2 3 in separate lines
+  listOfIntegers.foreach((element) => println(element))
+
+  println("Sort function")
+  // sort((x, y) => y - x) ===> From smallest to largest
+  println(listOfIntegers.sort((x, y) => y - x)) //Output: [1 2 3]
 }
 
 
