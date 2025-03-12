@@ -52,6 +52,12 @@ abstract class MyList[+A] {
   */
   def zipWith[B, C](list: MyList[B], zip: (A, B) => C): MyList[C]
 
+  /*  - fold(start)(function) => a value
+  *      Ex: [1,2,3].fold(0)(x + y) => Sum of the values with 0
+  *          0 + 1 + 2 + 3 = 6
+  */
+  def fold[B](start: B)(operator: (B, A) => B): B
+
 }
 
 case object EmptyList extends MyList[Nothing] {
@@ -84,6 +90,8 @@ case object EmptyList extends MyList[Nothing] {
     if (!list.isEmpty) throw new RuntimeException("List do not have the same length")
     else EmptyList
   }
+
+  def fold[B](start: B)(operator: (B, Nothing) => B): B = start
 
 }
 
@@ -168,9 +176,25 @@ case class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
     - zipWith: (list, (A, A) => B) => MyList[B]
       Ex: [1,2,3].zipWith([4,5,6], x * y) => [1 * 4, 2 * 5, 3 * 6] = [4, 10, 18]
     */
-  def zipWith[B, C](list: MyList[B], zip: (A, B) => C): MyList[C] =
+  def zipWith[B, C](list: MyList[B], zip: (A, B) => C): MyList[C] = {
     if(list.isEmpty) throw new RuntimeException("List do not have the same length")
     else new ConstructionList(zip(h, list.head), tail.zipWith(list.tail, zip))
+  }
+
+  /*
+  *   - fold(start)(function) => a value
+  *     Ex: [1,2,3].fold(0)(x + y) => Sum of the values with 0
+  *         0 + 1 + 2 + 3 = 6
+        [1,2,3].fold(0)(x + y)
+        = [2, 3].fold(1)(x + y)
+        = [3].fold(3)(x + y)
+        = [].fold(6)(x + y)
+        = 6
+   */
+  def fold[B](start: B)(operator: (B, A) => B): B = {
+    val newStart = operator(start, h)
+    t.fold(newStart)(operator)
+  }
 
 }
 
@@ -196,15 +220,18 @@ object ListTest extends App {
   val cloneListOfIntegers: MyList[Int] = new ConstructionList(1, ConstructionList(2, ConstructionList(3, EmptyList)))
   println(cloneListOfIntegers == listOfIntegers) //Output: true
 
-  println("Foreach method with side effect")
+  println("--Foreach method with side effect--")
   listOfIntegers.foreach((element) => println(element))
 
-  println("Sort function")
+  println("--Sort function--")
   // sort((x, y) => y - x) ===> From smallest to largest
   println(listOfIntegers.sort((x, y) => y - x)) //Output: [1 2 3]
 
-  println("Zip with")
+  println("--Zip with--")
   println(anotherListOfIntegers2.zipWith(listOfStrings, _ + "-" + _)) //Output: [1 2 3]
+
+  println("--Fold--")
+  println(listOfIntegers.fold(0)(_ + _))
 }
 
 
