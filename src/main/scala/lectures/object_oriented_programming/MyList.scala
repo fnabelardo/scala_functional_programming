@@ -46,6 +46,12 @@ abstract class MyList[+A] {
   */
   def sort(compare: (A, A) => Int): MyList[A]
 
+  /*
+  * - zipWith: (list, (A, A) => B) => MyList[B]
+      Ex: [1,2,3].zipWith([4,5,6], x * y) => [1 * 4, 2 * 5, 3 * 6] = [4, 10, 18]
+  */
+  def zipWith[B, C](list: MyList[B], zip: (A, B) => C): MyList[C]
+
 }
 
 case object EmptyList extends MyList[Nothing] {
@@ -70,6 +76,15 @@ case object EmptyList extends MyList[Nothing] {
   def foreach(f: Nothing => Unit): Unit = ()
 
   def sort(compare: (Nothing, Nothing) => Int) = EmptyList
+
+  /*
+  - zipWith: (list, (A, A) => B) => MyList[B]
+  */
+  def zipWith[B, C](list: MyList[B], zip: (Nothing, B) => C): MyList[C] = {
+    if (!list.isEmpty) throw new RuntimeException("List do not have the same length")
+    else EmptyList
+  }
+
 }
 
 case class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
@@ -149,6 +164,14 @@ case class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
     insert(h, sortedTail)
   }
 
+  /*
+    - zipWith: (list, (A, A) => B) => MyList[B]
+      Ex: [1,2,3].zipWith([4,5,6], x * y) => [1 * 4, 2 * 5, 3 * 6] = [4, 10, 18]
+    */
+  def zipWith[B, C](list: MyList[B], zip: (A, B) => C): MyList[C] =
+    if(list.isEmpty) throw new RuntimeException("List do not have the same length")
+    else new ConstructionList(zip(h, list.head), tail.zipWith(list.tail, zip))
+
 }
 
 /*
@@ -159,6 +182,7 @@ case class ConstructionList[+A](h: A, t: MyList[A]) extends MyList[A] {
 object ListTest extends App {
   val listOfIntegers: MyList[Int] = new ConstructionList(1, ConstructionList(2, ConstructionList(3, EmptyList)))
   val anotherListOfIntegers: MyList[Int] = new ConstructionList(4, ConstructionList(5, ConstructionList(6, EmptyList)))
+  val anotherListOfIntegers2: MyList[Int] = new ConstructionList(4, ConstructionList(5, EmptyList))
   val listOfStrings: MyList[String] = new ConstructionList("Hello", new ConstructionList("Scala", EmptyList))
 
   println(listOfIntegers.toString)
@@ -178,6 +202,9 @@ object ListTest extends App {
   println("Sort function")
   // sort((x, y) => y - x) ===> From smallest to largest
   println(listOfIntegers.sort((x, y) => y - x)) //Output: [1 2 3]
+
+  println("Zip with")
+  println(anotherListOfIntegers2.zipWith(listOfStrings, _ + "-" + _)) //Output: [1 2 3]
 }
 
 
