@@ -37,7 +37,16 @@ object Sequences extends App {
 
   //Arrays
   val numbers = Array(1,2,3,4)
-  val treeElements = Array.ofDim[Int](3)
-  treeElements.foreach(println)
+  val threeElements = Array.ofDim[Int](3)
+  threeElements.foreach(println)
+
+  //Mutation
+  numbers(2) = 0 //Special syntax sugar for number.update(2, 0)
+  println(numbers.mkString(" "))
+
+  //Arrays and Seq
+  val numbersSeq: Seq[Int] = numbers //Implicit conversion
+  println("---numbersSeq---")
+  println(numbersSeq) //Output: ArraySeq(1, 2, 0, 4)
 
 }
