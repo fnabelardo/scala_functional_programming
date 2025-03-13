@@ -35,4 +35,9 @@ object Sequences extends App {
   println(apples) //Output: List(apples, apples, apples)
   println(aList.mkString("-|-")) //Output: 1-|-2-|-3
 
+  //Arrays
+  val numbers = Array(1,2,3,4)
+  val treeElements = Array.ofDim[Int](3)
+  treeElements.foreach(println)
+
 }
