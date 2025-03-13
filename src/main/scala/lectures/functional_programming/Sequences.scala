@@ -1,5 +1,7 @@
 package lectures.functional_programming
 
+import scala.util.Random
+
 object Sequences extends App {
 
   //Sequences
@@ -48,5 +50,38 @@ object Sequences extends App {
   val numbersSeq: Seq[Int] = numbers //Implicit conversion
   println("---numbersSeq---")
   println(numbersSeq) //Output: ArraySeq(1, 2, 0, 4)
+
+  //Vectors
+  val vector: Vector[Int] = Vector(1, 2, 3)
+  println("---vector---")
+  println(vector)
+
+  //Vector vs lists
+  val maxRuns = 1000
+  val maxCapacity = 1000000
+  def getWriteTime(collection: Seq[Int]): Double = {
+    val r = new Random
+    val times = for {
+      i <- 1 to maxRuns
+    } yield {
+      val currentTime = System.nanoTime()
+      //Operation
+      collection.updated(r.nextInt(maxCapacity), r.nextInt())
+      System.nanoTime() - currentTime
+    }
+    times.sum * 1.0 / maxRuns
+  }
+
+  // List Advantage: Keeps references to tail
+  // List Advantage: Updating an element in the middle takes long
+  val numbersList = (1 to maxCapacity).toList
+  // Vector Advantage: Deep of the tree is small
+  // Vector Advantage: Needs to replace an entire 32-element chunk
+  val numbersVector = (1 to maxCapacity).toVector
+
+  println("---numbersList---")
+  println(getWriteTime(numbersList))
+  println("---numbersVector---")
+  println(getWriteTime(numbersVector))
 
 }
