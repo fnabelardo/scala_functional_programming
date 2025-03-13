@@ -232,6 +232,16 @@ object ListTest extends App {
 
   println("--Fold--")
   println(listOfIntegers.fold(0)(_ + _))
+
+  //Test for comprehensions
+  val combinationsIntsStrings = for {
+    n <- listOfIntegers
+    string <- listOfStrings
+  } yield (n + "-" + string)
+  println("--combinationsIntsStrings--")
+  println(combinationsIntsStrings)
+
+
 }
 
 

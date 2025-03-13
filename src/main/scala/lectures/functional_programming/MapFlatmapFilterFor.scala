@@ -38,16 +38,19 @@ object MapFlatmapFilterFor extends App {
 
   //For-comprehension
   val forCombinations = for {
-    n <- numbers
+    n <- numbers if n % 2 == 0
     c <- chars
     color <- colors
   } yield (c + "" + n + "-" + color)
   println("--forCombination--")
   println(forCombinations)
 
-
   //Foreach
   list.foreach(println)
 
+  //Syntax overload
+  list.map { x =>
+    x * 2
+  }
 
 }
