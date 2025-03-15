@@ -77,5 +77,13 @@ object TuplesAndMaps extends App {
   def addToNetwork(network: Map[String, Set[String]], person: String): Map[String, Set[String]] = {
     network + ((person -> Set()))
   }
-}
+
+  def friend(network: Map[String, Set[String]], personA: String, personB: String): Map[String, Set[String]] = {
+    val friendsA = network(personA)
+    val friendsB = network(personB)
+
+    network + (personA -> (friendsA + personB)) + (personB -> (friendsB + personA))
+  }
+
+  }
 
