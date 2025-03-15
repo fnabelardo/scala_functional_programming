@@ -73,4 +73,9 @@ object TuplesAndMaps extends App {
   val addressBook = Map(("Jim", "Hearth"), "JIM" -> "Marte").withDefaultValue(-1)
   println(addressBook.map(pair => pair._1.toLowerCase -> pair._2)) //Output: Map(jim -> Marte)
 
+  /* Simplified social network based on maps */
+  def addToNetwork(network: Map[String, Set[String]], person: String): Map[String, Set[String]] = {
+    network + ((person -> Set()))
+  }
 }
+
