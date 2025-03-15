@@ -17,4 +17,13 @@ object TuplesAndMaps extends App {
   println("--Swap a tuple--")
   println(aTuple.swap)
 
+  //Maps - keys => values
+  val aMap: Map[String, Int] = Map()
+
+  val phoneBook = Map(("John", 305), "Jane" -> 786).withDefaultValue(-1)
+  // a-> b is a syntactic sugar for (a, b)
+  println("--Phone Book--")
+  println(phoneBook) //Output: Map(John -> 305, Jane -> 786)
+
+
 }
