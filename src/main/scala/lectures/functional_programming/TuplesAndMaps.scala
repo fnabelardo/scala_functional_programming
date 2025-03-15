@@ -1,5 +1,7 @@
 package lectures.functional_programming
 
+import scala.annotation.tailrec
+
 object TuplesAndMaps extends App {
 
   //Tuples = finite ordered "lists"
@@ -141,5 +143,25 @@ object TuplesAndMaps extends App {
 
   println("--nPeopleWithNotFriends--")
   println(nPeopleWithNotFriends(testNetwork))
+
+  def socialConnection(network: Map[String, Set[String]], personA: String, personB: String): Boolean = {
+    @tailrec
+    def bfs(target: String, consideredPeople: Set[String], discoveredPeople: Set[String]): Boolean = {
+      if (discoveredPeople.isEmpty) false
+      else {
+        val person = discoveredPeople.head
+        if (person == target) true
+        else if (consideredPeople.contains(person)) bfs(target, consideredPeople, discoveredPeople.tail)
+        else bfs(target, consideredPeople + person, discoveredPeople.tail ++ network(person))
+      }
+    }
+    bfs(personB, Set(), network(personA) + personA)
+  }
+
+  println("--testNetwork--")
+  println(socialConnection(testNetwork, "Mary", "Jim"))
+  println("--network--")
+  println(socialConnection(network, "Mary", "Bob"))
+
 }
 
