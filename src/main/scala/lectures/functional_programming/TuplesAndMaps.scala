@@ -100,7 +100,12 @@ object TuplesAndMaps extends App {
 
       val unfriended = removeAux(network(person), network)
       unfriended - person
-    }
+  }
 
- }
+  def nFriends(network: Map[String, Set[String]], personA: String): Int = {
+    if (!network.contains(personA)) 0
+    else network(personA).size
+  }
+
+}
 
