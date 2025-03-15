@@ -92,5 +92,15 @@ object TuplesAndMaps extends App {
     network + (personA -> (friendsA - personB)) + (personB -> (friendsB - personA))
   }
 
-  }
+  def remove(network: Map[String, Set[String]], person: String): Map[String, Set[String]] = {
+    def removeAux(friends: Set[String], networkAcc: Map[String, Set[String]]): Map[String, Set[String]] = {
+      if (friends.isEmpty) networkAcc
+      else removeAux(friends.tail, unfriend(networkAcc, person, friends.head))
+    }
+
+      val unfriended = removeAux(network(person), network)
+      unfriended - person
+    }
+
+ }
 
