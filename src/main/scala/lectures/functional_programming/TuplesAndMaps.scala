@@ -55,4 +55,18 @@ object TuplesAndMaps extends App {
   println(phoneBook.mapValues(number => number * 10).toMap) //Output: Map(John -> 3050, Jane -> 7860)
   println("---Map value with prefix---")
   println(phoneBook.mapValues(number => "+1 " + number).toMap) //Output: Map(John -> 3050, Jane -> 7860)
+
+  //Conversions to other collections
+  println(phoneBook.toList)
+  println(List(("Noel", 786)).toMap)
+  val names = List("Jane", "Alfred", "John", "Jim")
+  /*
+  .groupBy(name => name.charAt(0)): This groups the elements in names based on their first character:
+    - name.charAt(0) extracts the first character of each name.
+    - groupBy organizes the names into a Map, where:
+        * The keys are the first characters of names.
+        * The values are lists of names that start with that character.
+  */
+  println(names.groupBy(name => name.charAt(0))) //Output: HashMap(J -> List(Jane, John, Jim), A -> List(Alfred))
+
 }
