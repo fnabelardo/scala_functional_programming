@@ -115,5 +115,31 @@ object TuplesAndMaps extends App {
     //network.filterKeys(key => network(key).isEmpty).size
     network.count(pair => pair._2.isEmpty)
   }
+
+  //Create Network
+  val empty: Map[String, Set[String]] = Map()
+  val network = addToNetwork(addToNetwork(empty, "Bob"), person = "Mary")
+
+  println("--network--")
+  println(network)
+  println(friend(network, "Bob", "Mary"))
+  println(unfriend(friend(network, "Bob", "Mary"), "Bob", "Mary"))
+  println(remove(friend(network, "Bob", "Mary"), "Bob"))
+
+  val people = addToNetwork(addToNetwork(addToNetwork(empty, "Bob"), "Mary"), "Jim")
+  val jimBob = friend(people, "Bob", "Jim")
+  val testNetwork = friend(jimBob, "Bob", "Mary")
+
+  println("--testNetwork--")
+  println(testNetwork)
+
+  println("--nFriends--")
+  println(nFriends(testNetwork, "Bob"))
+
+  println("--testNetwork--")
+  println(mostFriends(testNetwork))
+
+  println("--nPeopleWithNotFriends--")
+  println(nPeopleWithNotFriends(testNetwork))
 }
 
