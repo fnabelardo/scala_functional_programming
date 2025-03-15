@@ -110,5 +110,10 @@ object TuplesAndMaps extends App {
   def mostFriends(network: Map[String, Set[String]]): String = {
     network.maxBy(pair => pair._2.size)._1
   }
+
+  def nPeopleWithNotFriends(network: Map[String, Set[String]]): Int = {
+    //network.filterKeys(key => network(key).isEmpty).size
+    network.count(pair => pair._2.isEmpty)
+  }
 }
 
