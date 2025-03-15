@@ -69,4 +69,8 @@ object TuplesAndMaps extends App {
   */
   println(names.groupBy(name => name.charAt(0))) //Output: HashMap(J -> List(Jane, John, Jim), A -> List(Alfred))
 
+  /* 1. Map with lowercase to two keys with the same name */
+  val addressBook = Map(("Jim", "Hearth"), "JIM" -> "Marte").withDefaultValue(-1)
+  println(addressBook.map(pair => pair._1.toLowerCase -> pair._2)) //Output: Map(jim -> Marte)
+
 }
