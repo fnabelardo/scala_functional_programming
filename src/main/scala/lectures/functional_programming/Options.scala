@@ -12,4 +12,9 @@ object Options extends App {
   def unsafeMethod(): String = null
   val result = Option(unsafeMethod())
   println(result)//Output: None
+
+  //Chained methods
+  def backupMethod(): String = "A valid result"
+  val chainedResult = Option(unsafeMethod()).orElse(Option(backupMethod()))
+
 }
