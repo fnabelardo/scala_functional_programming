@@ -8,4 +8,8 @@ object Options extends App {
   println(myFirstOption) //Output: Some(4)
   println(noOption) //Output: None
 
+  //Work with unsafe APIs
+  def unsafeMethod(): String = null
+  val result = Option(unsafeMethod())
+  println(result)//Output: None
 }
