@@ -35,13 +35,16 @@ object HandlingFailure extends App {
 
   //orElse
   def backupMethod(): String = "A valid result"
+
   private val fallbackTry = Try(unsafeMethod()).orElse(Try(backupMethod()))
   println("--fallbackTry--")
   println(fallbackTry)
 
   //Create unsafe and backup API method
   def betterUnsafeMethod(): Try[String] = Failure(new RuntimeException)
+
   def betterBackupMethod(): Try[String] = Success("A valid result")
+
   val betterFallback = betterUnsafeMethod() orElse betterBackupMethod()
 
   //Map, flatMap, filter
@@ -61,7 +64,7 @@ object HandlingFailure extends App {
     def get(url: String): String = {
       val random = new Random(System.nanoTime())
 
-      if(random.nextBoolean()) "<html>...</html>"
+      if (random.nextBoolean()) "<html>...</html>"
       else throw new RuntimeException("Connection Error")
     }
 
@@ -85,5 +88,16 @@ object HandlingFailure extends App {
   private val possibleHtml = possibleConnection.flatMap(connection => connection.getSafe("/home"))
   println("--possibleHtml.foreach(renderHtml)--")
   possibleHtml.foreach(renderHtml)
+
+  //Shorthand version
+  HttpService.getSafeConnection(hostName, portNumber)
+    .flatMap(connection => connection.getSafe("/home"))
+    .foreach(renderHtml)
+
+  //For-comprehension
+  for {
+    connection <- HttpService.getSafeConnection(hostName, portNumber)
+    html <- connection.getSafe("/home")
+  } renderHtml(html)
 
 }
