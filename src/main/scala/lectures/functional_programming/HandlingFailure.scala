@@ -6,8 +6,8 @@ import scala.util.{Failure, Success, Try}
 object HandlingFailure extends App {
 
   //Creat success and failure
-  val aSuccess = Success(3)
-  val aFailure = Failure(new RuntimeException("Simulator error"))
+  private val aSuccess = Success(3)
+  private val aFailure = Failure(new RuntimeException("Simulator error"))
 
   println("--aSuccess--")
   println(aSuccess)
@@ -17,7 +17,26 @@ object HandlingFailure extends App {
   def unsafeMethod(): String = throw new RuntimeException("unsafe Method Message")
 
   //Try object via the apply method
-  val potentialFailure = Try(unsafeMethod())
-  println("--potentialFailure-")
+  private val potentialFailure = Try(unsafeMethod())
+  println("--potentialFailure--")
   println(potentialFailure)
+
+  //Syntax sugar
+  private val anotherPotentialFailure = Try {
+    //code that might throw
+    potentialFailure
+  }
+  println("--anotherPotentialFailure--")
+  println(anotherPotentialFailure)
+
+  //Utilities
+  println("--potentialFailure.isSuccess--")
+  println(potentialFailure.isSuccess)
+
+  //orElse
+  def backupMethod(): String = "A valid result"
+  private val fallbackTry = Try(unsafeMethod()).orElse(Try(backupMethod()))
+  println("--fallbackTry")
+  println(fallbackTry)
+
 }
