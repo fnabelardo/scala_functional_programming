@@ -33,4 +33,27 @@ object Options extends App {
   println(myFirstOption.filter(x => x > 10))//Output: None
   println(myFirstOption.flatMap(x => Option(x * 10)))//Some(40)
 
+  /*
+  * API
+  * */
+  val config: Map[String, String] = Map(
+    //Fetched from elsewhere
+    "host" -> "178.22.42.12",
+    "port" -> "80"
+  )
+
+  class Connection {
+    def connect = "Connected" //Connect to some server
+  }
+
+  object Connection {
+    val random = new Random(System.nanoTime())
+
+    def apply(host: String, port: String): Option[Connection] = {
+      if (random.nextBoolean()) Some(new Connection)
+      else None
+    }
+
+  }
+
   }
