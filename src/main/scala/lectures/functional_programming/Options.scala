@@ -56,4 +56,37 @@ object Options extends App {
 
   }
 
-  }
+  //Try to establish a connection,
+  // if so - print the connect method
+
+  /* Solution 1 */
+  private val host = config.get("host")
+  private val port = config.get("port")
+  /*
+  * if(host != null)
+  *   if(port != null)
+  *     return Connection.apply(host, port)
+  *
+  * return null
+  * */
+  private val connection = host.flatMap(h => port.flatMap(p => Connection.apply(h, p)))
+
+  /*
+  * if(connection != null)
+  *   return connection.connect
+  * return null
+  * */
+  private val connectionStatus = connection.map(conn => conn.connect)
+
+  //if(connectionStatus == null) println(None) else println(Some(connectionStatus.get))
+  println("---connectionStatus---")
+  println(connectionStatus)
+
+  /*
+  * if(status != null)
+  *   println(connection)
+  * */
+  println("---connectionStatus.foreach(println)---")
+  connectionStatus.foreach(println)
+
+}
