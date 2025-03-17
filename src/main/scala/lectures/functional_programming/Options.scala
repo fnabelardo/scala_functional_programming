@@ -90,7 +90,7 @@ object Options extends App {
   connectionStatus.foreach(println)
 
   /* Solution 2 */
-  //Using comprehension
+  //Chained methods
   println("--- Using comprehension ---")
   config.get("host")
     .flatMap(host => config.get("port")
