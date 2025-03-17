@@ -1,5 +1,7 @@
 package lectures.functional_programming
 
+import scala.util.Random
+
 object Options extends App {
 
   val myFirstOption: Option[Int] = Some(4)
@@ -22,4 +24,8 @@ object Options extends App {
   def betterBackupMethod(): Option[String] = Some("A valid result")
   val betterChainedResult = betterUnsafeMethod() orElse betterBackupMethod()
 
-}
+  //Functions on Options
+  println(myFirstOption.isEmpty)
+  println(myFirstOption.get) //UNSAFE - Do not use this
+
+  }
