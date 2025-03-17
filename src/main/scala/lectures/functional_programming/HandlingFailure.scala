@@ -39,4 +39,8 @@ object HandlingFailure extends App {
   println("--fallbackTry")
   println(fallbackTry)
 
+  //Create unsafe and backup API method
+  def betterUnsafeMethod(): Try[String] = Failure(new RuntimeException)
+  def betterBackupMethod(): Try[String] = Success("A valid result")
+  val betterFallback = betterUnsafeMethod() orElse betterBackupMethod()
 }
