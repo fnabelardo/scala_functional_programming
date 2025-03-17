@@ -98,4 +98,14 @@ object Options extends App {
       .map(conn => conn.connect))
     .foreach(println)
 
+  /* Solution 3 */
+  //For Comprehension
+  private val forConnectionStatus = for {
+    host <- config.get("host")
+    port <- config.get("port")
+    connection <- Connection(host, port)
+  } yield connection.connect
+  
+  forConnectionStatus.foreach(println)
+
 }
