@@ -10,7 +10,8 @@ object PatternMatching extends App {
     * - Cases are matched in order
     * - If no cases match return MatchError
     * - Type of the Pattern Matching expression is: Unified type of all the types in all cases
-    *  */
+    * - Works really well with case classes
+    * */
 
   //Switch on steroids
   val random = new Random
@@ -41,5 +42,15 @@ object PatternMatching extends App {
   }
   println("--greeting--")
   println(greeting)
+
+  //Pattern matching on sealed hierarchies
+  sealed class Animal
+  case class Dog(breed: String) extends Animal
+  case class Parrot(greeting: String) extends Animal
+
+  val animal: Animal = Dog("Terra Nova")
+  animal match {
+    case Dog(someBreed) => println(s"Matched a dog of the $someBreed breed")
+  }
 
 }
